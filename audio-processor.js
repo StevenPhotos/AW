@@ -1,8 +1,5 @@
 import { SoundTouch , SimpleFilter } from './soundtouch.js'
 
-
-// console.log(SoundTouch);
-
 class MyAudioProcessor extends AudioWorkletProcessor {
   constructor() {
       super();
@@ -25,8 +22,8 @@ class MyAudioProcessor extends AudioWorkletProcessor {
           this.buffer[i + this.bufferSize] = rightChannel[i];
       }
 
-      // this.soundTouch.tempo = 0.6;
-      // this.soundTouch.pitch = 0.6;
+      this.soundTouch.tempo = 0.6;
+      this.soundTouch.pitch = 0.6;
 
       this.processChunk(this.buffer, this.bufferSize * 2);
 
@@ -41,7 +38,6 @@ class MyAudioProcessor extends AudioWorkletProcessor {
 
   processChunk(buffer, size) {
       // Process the audio chunk using SoundTouch
-      // You need to implement this part based on how SoundTouch processes audio
       this.soundTouch.process(buffer, size);
   }
 
@@ -57,230 +53,3 @@ class MyAudioProcessor extends AudioWorkletProcessor {
 
 
 registerProcessor('audio-processor', MyAudioProcessor);
-// class MyAudioProcessor extends AudioWorkletProcessor {
-//   constructor() {
-//       super();
-//       this.soundTouch = new SoundTouch();
-//       this.bufferSize = 8196; // Adjust as needed
-//       this.buffer = new Float32Array(this.bufferSize);
-//       this.tempo = 1.0; // Default tempo
-//       this.pitch = 0.5; // Default pitch
-//   }
-
-//   process(inputs, outputs, parameters) {
-//       const input = inputs[0];
-//       const output = outputs[0];
-//       const channel = input[0];
-
-//       // Process audio in chunks
-//       let offset = 0;
-//       while (offset < channel.length) {
-//           const chunkSize = Math.min(channel.length - offset, this.bufferSize);
-//           this.buffer.set(channel.subarray(offset, offset + chunkSize));
-
-//           this.soundTouch.tempo = this.tempo;
-//           this.soundTouch.pitch = this.pitch;
-
-//           // Process the chunk of audio
-//           this.processChunk(this.buffer, chunkSize);
-
-//           // Write the processed audio to the output
-//           output[0].set(this.buffer.subarray(0, chunkSize), offset);
-
-//           offset += chunkSize;
-//       }
-
-//       return true;
-//   }
-
-//   processChunk(buffer, chunkSize) {
-//       // Process the chunk of audio using the SoundTouch library
-//       // You need to implement this part based on how SoundTouch processes audio
-//       this.soundTouch.process(buffer, chunkSize);
-//   }
-
-//   setTempo(value) {
-//       this.tempo = value;
-//   }
-
-//   setPitch(value) {
-//       this.pitch = value;
-//   }
-// }
-
-// class MyAudioProcessor extends AudioWorkletProcessor {
-//   constructor() {
-//       super();
-//       this.soundTouch = new SoundTouch();
-//       this.bufferSize = 512; // Adjust as needed
-//       this.buffer = new Float32Array(this.bufferSize);
-//       this.tempo = 1.0; // Default tempo
-//       this.pitch = 1.0; // Default pitch
-//   }
-
-//   process(inputs, outputs, parameters) {
-//       const input = inputs[0];
-//       const output = outputs[0];
-//       const channel = input[0];
-
-//       // Process audio in chunks
-//       let offset = 0;
-//       while (offset < channel.length) {
-//           const chunkSize = Math.min(channel.length - offset, this.bufferSize);
-//           this.buffer.set(channel.subarray(offset, offset + chunkSize));
-
-//           this.soundTouch.tempo = this.tempo;
-//           this.soundTouch.pitch = this.pitch;
-          
-//           this.soundTouch.putBuffer(this.buffer, chunkSize);
-
-//           const frames = this.soundTouch.receiveSamples(this.buffer, chunkSize);
-
-//           for (let i = 0; i < frames; i++) {
-//               output[0][offset + i] = this.buffer[i];
-//           }
-
-//           offset += chunkSize;
-//       }
-
-//       return true;
-//   }
-
-//   setTempo(value) {
-//       this.tempo = value;
-//   }
-
-//   setPitch(value) {
-//       this.pitch = value;
-//   }
-// }
-// class MyAudioProcessor extends AudioWorkletProcessor {
-//   constructor() {
-//       super();
-//       this.soundTouch = new SoundTouch();
-//       this.bufferSize = 512; // Adjust as needed
-//       this.buffer = new Float32Array(this.bufferSize);
-//   }
-
-//   process(inputs, outputs, parameters) {
-//       const input = inputs[0];
-//       const output = outputs[0];
-//       const channel = input[0];
-
-//       // Process audio in chunks
-//       let offset = 0;
-//       while (offset < channel.length) {
-//           const chunkSize = Math.min(channel.length - offset, this.bufferSize);
-//           this.buffer.set(channel.subarray(offset, offset + chunkSize));
-
-//           // this.soundTouch.tempo = /* adjust tempo here */;
-//           // this.soundTouch.pitch = /* adjust pitch here */;
-//                   // Set tempo and pitch based on input range values
-//           this.soundTouch.tempo = parseFloat(tempoRange.value);
-//           this.soundTouch.pitch = parseFloat(pitchRange.value);
-          
-//           this.soundTouch.putSamples(this.buffer, chunkSize);
-
-//           const frames = this.soundTouch.receiveSamples(this.buffer, chunkSize);
-
-//           for (let i = 0; i < frames; i++) {
-//               output[0][offset + i] = this.buffer[i];
-//           }
-
-//           offset += chunkSize;
-//       }
-
-//       return true;
-//   }
-// }
-
-// class MyAudioProcessor extends AudioWorkletProcessor {
-//   constructor() {
-//       super();
-//       this.soundTouch = new SoundTouch();
-//       this.bufferSize = 512; // Adjust as needed
-//       this.inputBuffer = new FifoSampleBuffer();
-//       this.outputBuffer = new FifoSampleBuffer();
-//   }
-
-//   process(inputs, outputs, parameters) {
-//       const input = inputs[0];
-//       const output = outputs[0];
-//       const channel = input[0];
-
-//       // Process audio in chunks
-//       let offset = 0;
-//       while (offset < channel.length) {
-//           const chunkSize = Math.min(channel.length - offset, this.bufferSize);
-//           this.inputBuffer.putSamples(channel.subarray(offset, offset + chunkSize));
-
-//           this.soundTouch.process(this.inputBuffer, this.outputBuffer, chunkSize);
-
-//           const frames = this.outputBuffer.receiveSamples(this.buffer, chunkSize);
-
-//           for (let i = 0; i < frames; i++) {
-//               output[0][offset + i] = this.buffer[i];
-//           }
-
-//           offset += chunkSize;
-//       }
-
-//       return true;
-//   }
-// }
-
-
-
-// class MyAudioProcessor extends AudioWorkletProcessor {
-//   constructor() {
-//       super();
-//       this.soundTouch = new SoundTouch();
-//       this.bufferSize = 512; // Adjust as needed
-//       this.buffer = new Float32Array(this.bufferSize);
-//       this.port.onmessage = (event) => {
-//           if (event.data.type === 'tempo') {
-//               this.soundTouch.tempo = event.data.value;
-//           } else if (event.data.type === 'pitch') {
-//               this.soundTouch.pitch = event.data.value;
-//           }
-//       };
-//   }
-
-//   process(inputs, outputs, parameters) {
-//       const input = inputs[0];
-//       const output = outputs[0];
-//       const channel = input[0];
-
-//       this.buffer.set(channel);
-//       this.soundTouch.putSamples(this.buffer);
-//       const frames = this.soundTouch.receiveSamples(this.buffer);
-
-//       for (let i = 0; i < frames; i++) {
-//           output[0][i] = this.buffer[i];
-//       }
-
-//       return true;
-//   }
-// }
-
-// class MyAudioProcessor extends AudioWorkletProcessor {
-//   process(inputs, outputs, parameters) {
-//     // Audio processing logic goes here
-//     const input = inputs[0];
-//     const output = outputs[0];
-
-//     for (let channel = 0; channel < input.length; channel++) {
-//       const inputChannel = input[channel];
-//       const outputChannel = output[channel];
-
-//       // Process audio samples in real-time
-//       for (let i = 0; i < inputChannel.length; i++) {
-//         outputChannel[i] = inputChannel[i] * 1; // Example: Reduce volume by half
-//       }
-//     }
-
-//     return true;
-//   }
-// }
-
-// registerProcessor('audio-processor', MyAudioProcessor);
